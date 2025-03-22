@@ -11,17 +11,35 @@ public final class HeaderRule extends Rule<MessageRenderContext, HeaderNode<Mess
 
     public HeaderRule() {
         // Updated regex to match headers correctly and avoid other syntax issues
-        super(Pattern.compile("^(?<!\\S)(#+)\\s+([^\\n]+?)\\s*(?=\\n|$)"));
+        super(Pattern.compile("^(#+)\\s+(.+)$", Pattern.MULTILINE));
     }
 
     @Override
-    public ParseSpec<MessageRenderContext, MessageParseState> parse(Matcher matcher, Parser<MessageRenderContext, ? super HeaderNode<MessageRenderContext>, MessageParseState> parser, MessageParseState s) {
+    public ParseSpec<MessageRenderContext, MessageParseState> parse(Matcher matcher, Parser<MessageRenderContext, ? super HeaderNode<MessageRenderContext>, MessageParseState> parser, MessageParseState state) {
         // Determine header level from number of # symbols
         int level = matcher.group(1).length();
         // Extract header content
         String content = matcher.group(2).trim();
+
+        // Apply additional parsing for nested Markdown formatting
+        String parsedContent = parseMarkdown(content);
         
-        HeaderNode headerNode = new HeaderNode(content, level);
-        return new ParseSpec<>(headerNode, s);
+        HeaderNode headerNode = new HeaderNode(parsedContent, level);
+        return new ParseSpec<>(headerNode, state);
+    }
+
+    // Method to parse nested Markdown formatting within header content
+    private String parseMarkdown(String content) {
+        // Handle bold (**text** or __text__)
+        content = content.replaceAll("\\*\\*(.*?)\\*\\*", "<strong>$1</strong>");
+        content = content.replaceAll("__(.*?)__", "<strong>$1</strong>");
+        // Handle italic (*text* or _text_)
+        content = content.replaceAll("\\*(.*?)\\*", "<em>$1</em>");
+        content = content.replaceAll("_(.*?)_", "<em>$1</em>");
+        // Handle strikethrough (~~text~~)
+        content = content.replaceAll("~~(.*?)~~", "<del>$1</del>");
+        // Handle inline code (`code`)
+        content = content.replaceAll("`([^`]+)`", "<code>$1</code>");
+        return content;
     }
 }
