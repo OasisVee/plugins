@@ -11,13 +11,13 @@ public final class HeaderRule extends Rule<MessageRenderContext, HeaderNode<Mess
 
     public HeaderRule() {
         // Updated regex to match headers correctly and avoid other syntax issues
-        super(Pattern.compile("^(\\s*#+)\\s+([^#\\n]+?)\\s*(?=\\n|$)"));
+        super(Pattern.compile("^(#+)\\s+([^\\n]+?)\\s*(?=\\n|$)"));
     }
 
     @Override
     public ParseSpec<MessageRenderContext, MessageParseState> parse(Matcher matcher, Parser<MessageRenderContext, ? super HeaderNode<MessageRenderContext>, MessageParseState> parser, MessageParseState s) {
         // Determine header level from number of # symbols
-        int level = matcher.group(1).trim().length();
+        int level = matcher.group(1).length();
         // Extract header content
         String content = matcher.group(2).trim();
         
