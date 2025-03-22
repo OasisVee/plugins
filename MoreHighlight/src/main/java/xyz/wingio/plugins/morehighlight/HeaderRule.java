@@ -11,7 +11,7 @@ public final class HeaderRule extends Rule<MessageRenderContext, HeaderNode<Mess
 
     public HeaderRule() {
         // Updated regex to match headers correctly and avoid other syntax issues
-        super(Pattern.compile("^(#+)\\s+([^\\n]+?)\\s*(?=\\n|$)"));
+        super(Pattern.compile("^(?<!\\S)(#+)\\s+([^\\n]+?)\\s*(?=\\n|$)"));
     }
 
     @Override
