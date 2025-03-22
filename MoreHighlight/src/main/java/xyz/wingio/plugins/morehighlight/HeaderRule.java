@@ -7,20 +7,19 @@ import com.discord.utilities.textprocessing.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 public final class HeaderRule extends Rule<MessageRenderContext, HeaderNode<MessageRenderContext>, MessageParseState> {
 
     public HeaderRule() {
-        // Updated regex that allows leading whitespace and trailing spaces
-        super(Pattern.compile("^\\s*(#+)[ \\t](.+) *(?=\\n|$)"));
+        // Updated regex to match headers correctly and avoid other syntax issues
+        super(Pattern.compile("^(\\s*#+)\\s+([^#\\n]+?)\\s*(?=\\n|$)"));
     }
 
     @Override
     public ParseSpec<MessageRenderContext, MessageParseState> parse(Matcher matcher, Parser<MessageRenderContext, ? super HeaderNode<MessageRenderContext>, MessageParseState> parser, MessageParseState s) {
         // Determine header level from number of # symbols
-        int level = matcher.group(1).length();
+        int level = matcher.group(1).trim().length();
         // Extract header content
-        String content = matcher.group(2);
+        String content = matcher.group(2).trim();
         
         HeaderNode headerNode = new HeaderNode(content, level);
         return new ParseSpec<>(headerNode, s);
