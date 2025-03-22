@@ -7,11 +7,12 @@ import com.discord.utilities.textprocessing.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public final class HeaderRule extends Rule<MessageRenderContext, HeaderNode<MessageRenderContext>, MessageParseState> {
 
     public HeaderRule() {
-        // Matches headers: # Header, ## Header, ### Header
-        super(Pattern.compile("^(#{1,3}) (.+)$"));
+        // Updated regex that allows leading whitespace and trailing spaces
+        super(Pattern.compile("^\\s*(#+)[ \\t](.+) *(?=\\n|$)"));
     }
 
     @Override
