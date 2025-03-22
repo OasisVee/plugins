@@ -31,15 +31,15 @@ public final class HeaderRule extends Rule<MessageRenderContext, HeaderNode<Mess
     // Method to parse nested Markdown formatting within header content
     private String parseMarkdown(String content) {
         // Handle bold (**text** or __text__)
-        content = content.replaceAll("\\*\\*(.*?)\\*\\*", "<strong>$1</strong>");
-        content = content.replaceAll("__(.*?)__", "<strong>$1</strong>");
+        content = content.replaceAll("\\*\\*(.*?)\\*\\*", "**$1**");
+        content = content.replaceAll("__(.*?)__", "__$1__");
         // Handle italic (*text* or _text_)
-        content = content.replaceAll("\\*(.*?)\\*", "<em>$1</em>");
-        content = content.replaceAll("_(.*?)_", "<em>$1</em>");
+        content = content.replaceAll("\\*(.*?)\\*", "*$1*");
+        content = content.replaceAll("_(.*?)_", "_$1_");
         // Handle strikethrough (~~text~~)
-        content = content.replaceAll("~~(.*?)~~", "<del>$1</del>");
+        content = content.replaceAll("~~(.*?)~~", "~~$1~~");
         // Handle inline code (`code`)
-        content = content.replaceAll("`([^`]+)`", "<code>$1</code>");
+        content = content.replaceAll("`([^`]+)`", "`$1`");
         return content;
     }
 }

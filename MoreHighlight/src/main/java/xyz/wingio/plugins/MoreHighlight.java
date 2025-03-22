@@ -1,3 +1,4 @@
+
 package xyz.wingio.plugins;
 
 import android.content.Context;
@@ -40,7 +41,6 @@ import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
 import com.discord.utilities.textprocessing.node.EditedMessageNode;
 import com.discord.utilities.textprocessing.node.ZeroSpaceWidthNode;
 
-
 import com.lytefast.flexinput.R;
 
 import java.util.regex.*;
@@ -75,12 +75,12 @@ public class MoreHighlight extends Plugin {
       logger.error("Failed to get rules field", e);
     }
 
-    patcher.patch(DiscordParser.class, "parseChannelMessage", new Class<?>[] {Context.class, String.class, MessageRenderContext.class, MessagePreprocessor.class, DiscordParser.ParserOptions.class, boolean.class}, new PreHook(callFrame -> {
+    patcher.patch(DiscordParser.class, "parseChannelMessage", new Class<?>[] {Context.class, String.class, MessageRenderContext.class, MessagePreprocessor.class, DiscordParser.ParserOptions.class, boolean.class}, new Hook(callFrame -> {
       try{
         Context ctx = (Context) callFrame.args[0];
         Parser<MessageRenderContext, Node<MessageRenderContext>, MessageParseState> parser = DiscordParser.createParser$default(true, true, true, false, false, 4, null);
         String str = (String) callFrame.args[1];
-        ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>,MessageParseState>> rules = (ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>,MessageParseState>>) rulesField.get(parser);
+        ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>, MessageParseState>> rules = (ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>, MessageParseState>>) rulesField.get(parser);
         
         rules.add(0, new HeaderRule());  // Add HeaderRule
         rules.add(0, new SubtextRule()); // Add SubtextRule
@@ -110,3 +110,4 @@ public class MoreHighlight extends Plugin {
   @Override
   public void stop(Context context) { patcher.unpatchAll(); }
 }
+
