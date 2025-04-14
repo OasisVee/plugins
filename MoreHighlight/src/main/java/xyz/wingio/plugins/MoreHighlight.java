@@ -1,53 +1,24 @@
 package xyz.wingio.plugins;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.*;
-import android.view.*;
-import android.widget.*;
-import android.os.*;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import xyz.wingio.plugins.morehighlight.*;
 
-import com.aliucord.Constants;
-import com.aliucord.Utils;
 import com.aliucord.Logger;
-import com.aliucord.PluginManager;
-import com.aliucord.api.CommandsAPI;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.*;
 import com.aliucord.annotations.AliucordPlugin;
-import com.aliucord.wrappers.*;
-import com.aliucord.utils.*;
-import com.aliucord.views.Button;
-
-import com.discord.api.commands.ApplicationCommandType;
-import com.discord.api.commands.CommandChoice;
-import com.discord.models.commands.ApplicationCommandOption;
-import com.discord.stores.*;
-import com.discord.widgets.guilds.profile.WidgetGuildProfileSheet;
-import com.discord.widgets.user.usersheet.WidgetUserSheet;
-import com.discord.widgets.guilds.list.*;
-import com.discord.widgets.home.*;
-import com.discord.panels.*;
 import com.discord.simpleast.core.parser.*;
 import com.discord.utilities.textprocessing.*;
 import com.discord.simpleast.core.node.Node;
-import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
 
 import com.discord.utilities.textprocessing.node.EditedMessageNode;
 import com.discord.utilities.textprocessing.node.ZeroSpaceWidthNode;
-
-
-import com.lytefast.flexinput.R;
 
 import java.util.regex.*;
 import java.util.*;
 import java.lang.reflect.*;
 import java.lang.*;
-import kotlin.NoWhenBranchMatchedException;
 
 @AliucordPlugin
 public class MoreHighlight extends Plugin {
@@ -82,9 +53,9 @@ public class MoreHighlight extends Plugin {
         String str = (String) callFrame.args[1];
         ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>,MessageParseState>> rules = (ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>,MessageParseState>>) rulesField.get(parser);
         
-        rules.add(0, new BulletPointRule());
         rules.add(0, new HeaderRule());
-        rules.add(0, new SubtextRule());
+        rules.add(0, new SubtextRule(ctx));
+        rules.add(0, new BulletPointRule(ctx));
         rules.add(0, new RedditRule(REDDIT_REGEX, ctx));
         rules.add(0, new IssueRule(ISSUE_REGEX, ctx));
         rules.add(0, new RepoRule(REPO_REGEX, ctx));

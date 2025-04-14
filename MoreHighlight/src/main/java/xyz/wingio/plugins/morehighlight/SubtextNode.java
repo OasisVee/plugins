@@ -1,31 +1,30 @@
 package xyz.wingio.plugins.morehighlight;
 
 import com.discord.simpleast.core.node.Node;
-import com.discord.utilities.textprocessing.*;
 import com.discord.utilities.color.ColorCompat;
 
+import android.content.Context;
 import android.text.SpannableStringBuilder;
 import android.text.style.*;
-import android.graphics.Color;
 
 import com.lytefast.flexinput.R;
 
-public class SubtextNode<MessageRenderContext> extends Node<MessageRenderContext> {
-  String content;
+public class SubtextNode<MessageRenderContext> extends Node.a<MessageRenderContext> {
+  private final Context context;
 
-  public SubtextNode(String content){
+  public SubtextNode(Context context){
     super();
-    this.content = content;
+    this.context = context;
   }
 
   @Override
   public void render(SpannableStringBuilder builder, MessageRenderContext renderContext) {
     int length = builder.length();
-    builder.append(content);
-    
+    super.render(builder, renderContext);
+
     builder.setSpan(new RelativeSizeSpan(0.85f), length, builder.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
-    
-    int greyColor = Color.parseColor("#99AAB5");
+
+    int greyColor = ColorCompat.getThemedColor(context, R.b.colorTextMuted);
     builder.setSpan(new ForegroundColorSpan(greyColor), length, builder.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
   }
 }
