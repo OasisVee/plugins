@@ -25,6 +25,9 @@ public class SubtextNode<MessageRenderContext> extends Node.a<MessageRenderConte
     builder.setSpan(new RelativeSizeSpan(0.85f), length, builder.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
 
     int greyColor = ColorCompat.getThemedColor(context, R.b.colorTextMuted);
-    builder.setSpan(new ForegroundColorSpan(greyColor), length, builder.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+    int alphaValue = 128; // 50% transparent feels good
+    int greyColorWithAlpha = (greyColor & 0x00FFFFFF) | (alphaValue << 24);
+  
+    builder.setSpan(new ForegroundColorSpan(greyColorWithAlpha), length, builder.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
   }
 }
