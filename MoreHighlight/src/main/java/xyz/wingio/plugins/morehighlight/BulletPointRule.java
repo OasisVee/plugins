@@ -11,14 +11,17 @@ import java.util.regex.Pattern;
 
 public final class BulletPointRule extends Rule.BlockRule<MessageRenderContext, BulletPointNode<MessageRenderContext>, MessageParseState> {
     final private Context context;
+    final private Pattern pattern;
 
     public BulletPointRule(Context context, Pattern pattern) {
         super(pattern);
         this.context = context;
+        this.pattern = pattern;
     }
 
     @Override
     public ParseSpec<MessageRenderContext, MessageParseState> parse(Matcher matcher, Parser<MessageRenderContext, ? super BulletPointNode<MessageRenderContext>, MessageParseState> parser, MessageParseState s) {
-        return new ParseSpec<>(new BulletPointNode(context), s, matcher.start(2), matcher.end(2));
+        String bulletType = matcher.group(1);
+        return new ParseSpec<>(new BulletPointNode(context, bulletType), s, matcher.start(2), matcher.end(2));
     }
 }

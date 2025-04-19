@@ -59,6 +59,7 @@ public final class PluginSettings extends SettingsPage {
         var layout = getLinearLayout();
         
         layout.addView(createSwitch(ctx, settings, "show_repo_name", "Show repo name in issue/pr link", null, false));
+        
         TextView bulletHeader = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Label);
         bulletHeader.setText("Bullet Point Settings");
         bulletHeader.setPadding(0, p, 0, 0);
@@ -71,6 +72,8 @@ public final class PluginSettings extends SettingsPage {
         
         layout.addView(createSwitch(ctx, settings, "disable_hyphen_bullets", "Disable hyphen bullet points", "Disables bullet points that start with a hyphen (-)", false));
         layout.addView(createSwitch(ctx, settings, "disable_asterisk_bullets", "Disable asterisk bullet points", "Disables bullet points that start with an asterisk (*)", false));
+        layout.addView(createSwitch(ctx, settings, "use_star_bullets", "Use star bullets", "Use stars instead of standard bullet points (- to ☆ and * to ★)", false));
+        
         TextView headerSizeLabel = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Label);
         headerSizeLabel.setText("Header Size Scale");
         headerSizeLabel.setPadding(0, p, 0, 0);
