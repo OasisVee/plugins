@@ -1,4 +1,4 @@
-version = "1.4.2"
+version = "1.4.3"
 description = "Adds more syntax highlighting options"
 
 aliucord.changelog.set(
@@ -7,6 +7,7 @@ aliucord.changelog.set(
     ======================
     * Added headers, subtext and bulletpoints -serinova (credit to AAurus for their version with their regex, god send)
     * Added slider in settings to change the headers font size
+    * Added option to disable hyphen bulletpoint recognition
     
     Fixed (v1.4.2) {fixed marginTop}
     ======================

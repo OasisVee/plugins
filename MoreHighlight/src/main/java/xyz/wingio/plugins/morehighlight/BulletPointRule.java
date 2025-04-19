@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 public final class BulletPointRule extends Rule.BlockRule<MessageRenderContext, BulletPointNode<MessageRenderContext>, MessageParseState> {
     final private Context context;
 
-    public BulletPointRule(Context context) {
-        super(Pattern.compile("^\\s*([*-])\\s+(.+)(?=\\n|$)"));
+    public BulletPointRule(Context context, Pattern pattern) {
+        super(pattern);
         this.context = context;
     }
 

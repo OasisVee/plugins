@@ -59,6 +59,7 @@ public final class PluginSettings extends SettingsPage {
         var layout = getLinearLayout();
         
         layout.addView(createSwitch(ctx, settings, "show_repo_name", "Show repo name in issue/pr link", null, false));
+        layout.addView(createSwitch(ctx, settings, "disable_hyphen_bullets", "Disable hyphen bullet points", "Disables bullet points that start with a hyphen (-)", false));
         
         TextView headerSizeLabel = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Label);
         headerSizeLabel.setText("Header Size Scale");
