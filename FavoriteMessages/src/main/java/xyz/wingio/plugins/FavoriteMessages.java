@@ -101,6 +101,16 @@ public class FavoriteMessages extends Plugin {
                 return new CommandsAPI.CommandResult("Cleared favorite messages", null, false);
             }
         );
+        
+      commands.registerCommand(
+            "favorites",
+            "Opens your list of favorite messages",
+            Collections.emptyList(),
+            ctx -> {
+                Utils.openPageWithProxy(ctx.getContext(), new PluginSettings(settings));
+                return new CommandsAPI.CommandResult();
+            }
+        );
     }
 
     @Override
