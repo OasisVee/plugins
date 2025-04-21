@@ -32,6 +32,7 @@ import com.discord.models.user.User;
 import com.discord.panels.*;
 import com.discord.utilities.rest.RestAPI;
 import com.discord.utilities.analytics.AnalyticSuperProperties;
+import com.discord.utilities.color.ColorCompat;
 import com.lytefast.flexinput.R;
 
 import kotlin.Unit;
@@ -80,37 +81,39 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(headerSizeLabel);
         
         TextView headerSizeDescription = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_SubText);
-        headerSizeDescription.setText("Adjust the size of headers (100% is default)");
+        headerSizeDescription.setText("Enter a value between 0.2 and 2.0 (1.0 = default)");
         headerSizeDescription.setPadding(p, 0, p, DimenUtils.dpToPx(8));
         layout.addView(headerSizeDescription);
 
-        SeekBar headerSizeSlider = new SeekBar(ctx);
-        headerSizeSlider.setMax(200);
-        int currentScale = (int)(settings.getFloat("header_size_scale", 1.0f) * 100);
-        headerSizeSlider.setProgress(currentScale);
-        headerSizeSlider.setPadding(p, DimenUtils.dpToPx(8), p, 0);
+        EditText headerSizeInput = new EditText(ctx);
+        float currentScale = settings.getFloat("header_size_scale", 1.0f);
+        headerSizeInput.setText(String.valueOf(currentScale));
+        headerSizeInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        headerSizeInput.setHint("1.0");
+        headerSizeInput.setPadding(p, DimenUtils.dpToPx(8), p, p);
+        
+        headerSizeInput.setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorTextNormal));
+        headerSizeInput.setHintTextColor(ColorCompat.getThemedColor(ctx, R.b.colorTextMuted));
+        
+        layout.addView(headerSizeInput);
 
-        TextView headerSizeValue = new TextView(ctx, null, 0, R.i.UiKit_TextView);
-        headerSizeValue.setText(currentScale + "%");
-        headerSizeValue.setPadding(p, DimenUtils.dpToPx(4), p, p);
-
-        headerSizeSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                float scale = progress / 100.0f;
+        Button applyButton = new Button(ctx);
+        applyButton.setText("Apply");
+        applyButton.setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorTextNormal));
+        applyButton.setOnClickListener(v -> {
+            try {
+                float scale = Float.parseFloat(headerSizeInput.getText().toString());
+                scale = Math.max(0.2f, Math.min(2.0f, scale));
                 settings.setFloat("header_size_scale", scale);
-                headerSizeValue.setText(progress + "%");
+                headerSizeInput.setText(String.valueOf(scale));
+                
+                Utils.showToast("Header size scale updated to " + scale, true);
+            } catch (NumberFormatException e) {
+                Utils.showToast("Please enter a valid number", false);
+                headerSizeInput.setText(String.valueOf(currentScale));
             }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-
-        layout.addView(headerSizeSlider);
-        layout.addView(headerSizeValue);
+        layout.addView(applyButton);
         
         layout.addView(new Divider(ctx));
         

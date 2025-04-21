@@ -8,6 +8,7 @@ aliucord.changelog.set(
     * Added option to use star bullets instead of default bullets (hyphens become ☆ while asterisks become ★)
     * Added option to disable asterisk bullet point recognition
     * Now supports disabling either or both bullet point types (asterisk and hyphen)
+    * Made the slider a text input
     
     Previous Updates (v1.4.3) {updated}
     ======================
